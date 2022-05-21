@@ -14,7 +14,8 @@
                         </div>
                     @endif
                     <a href="{{route('admin.posts.create')}}" class="btn btn-primary" >Create Post</a>
-                    {{ __('You are logged in!') }}
+                    <a href="{{route('admin.posts.myindex')}}" class="btn btn-primary" >My Posts</a>
+                    <a href="{{route('admin.posts.index')}}" class="btn btn-primary" >All posts</a>
                 </div>
             </div>
         </div>

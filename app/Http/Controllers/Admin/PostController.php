@@ -49,6 +49,8 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate($this->getValidator(null));
+
+        //new post unito all'utente loggato con il suo id (aggiungere user_id nel fillable)
         $newPost  = $request->all() + ['user_id' => Auth::user()->id];
         $element = Post::create($newPost);
         return redirect()->route('admin.posts.show', $element->slug);
@@ -73,6 +75,11 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+
+        //controllo per le modifiche tramite url
+        if(Auth::user()->id !== $post->user_id) {
+            abort(403);
+        }
         return view('admin.posts.edit', compact('post'));
     }
 
@@ -85,6 +92,11 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        //controllo se non si ha lo stesso id
+        if(Auth::user()->id !== $post->user_id) {
+            abort(403);
+        }
+
         $request->validate($this->getValidators($post));
         $post->update($request->all());
         return redirect()->route('admin.posts.show', $post->slug);
@@ -98,7 +110,17 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        //controllo per il delete sempre per l'id
+        if(Auth::user()->id !== $post->user_id) {
+            abort(403);
+        }
+
         $post->delete();
         return redirect()->route('admin.posts.index');
+    }
+
+    public function myindex() {
+        $element = Post::where('user_id', Auth::user()->id)->paginate(25);
+        return view('admin.posts.index', compact('element'));
     }
 }

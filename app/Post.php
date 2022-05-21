@@ -16,6 +16,7 @@ class Post extends Model
         'title',
         'description',
         'slug',
+        'user_id'
     ];
 
     static public function genSlug($data) {
@@ -27,5 +28,9 @@ class Post extends Model
             $i++;
         }
         return $slug;
+    }
+
+    public function user() {
+        return $this->belongsTo('App\User'); //se il post ha la chiave esterna si usa 'belongsTo'
     }
 }

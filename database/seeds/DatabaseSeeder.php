@@ -11,7 +11,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UserSeeder::class);
+        // popolare le tabelle una alla volta partendo dallo user, l'ordine e' importante
+        $this->call(UserSeeder::class);
+        $this->call(UserInfoSeeder::class);
         $this->call(PostSeeder::class);
     }
 }

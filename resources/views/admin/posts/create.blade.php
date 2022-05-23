@@ -16,12 +16,16 @@
                     <input type="text" class="form-control" id="title" name="title" value="{{old('title')}}">
                 </div>
 
-                <select name="category" id="category">
+                {{-- SELECT CATEGORY --}}
+                <select name="category_id" id="category_id">
                     <option value="">Select Category</option>
-                    @foreach ($categories as $item)
+                    @foreach ($allCategories as $item)
                         <option value="{{$item->id}}">{{$item->name}}</option>
                     @endforeach
                 </select>
+                @error('category_id')
+                <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
 
 
                 {{-- SLUG --}}

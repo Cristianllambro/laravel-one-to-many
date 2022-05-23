@@ -16,7 +16,8 @@ class Post extends Model
         'title',
         'description',
         'slug',
-        'user_id'
+        'user_id',
+        'category_id'
     ];
 
     static public function genSlug($data) {

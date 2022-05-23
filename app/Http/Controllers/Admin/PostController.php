@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Post;
 use App\Category;
+use App\user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -16,6 +17,7 @@ class PostController extends Controller
         return [
             'title' => 'required|max:100',
             'description' => 'required',
+            'category_id' =>'required|exists:App\Category,id',
             'slug' => ['required', Rule::unique('posts')->ignore($item), 'max:100'],
         ];
     }
@@ -25,10 +27,34 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $element = Post::paginate(25);
-        return view('admin.posts.index', compact('element'));
+        // DA FINIRE INCOMPRENSIONE
+        $element = Post::where('id', '>', 0);
+
+        if($request->filter_title) {
+            $element->where('title', 'LIKE', "%$request->filter_title%");
+        }
+
+        if($request->category) {
+            $element->where('category_id', $request->category);
+        }
+
+        if($request->user) {
+            $element->where('user_id', $request->user);
+        }
+        
+        $element = $element->paginate(20);
+        $categories = Category::all();
+        $users = User::all();
+        //$element = Post::paginate(25);
+
+        return view('admin.posts.index', [
+            'element' => $element,
+            'categories' => $categories,
+            'user' => $users,
+            'request' => $request,
+        ]);
     }
 
     /**
@@ -38,8 +64,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        $allCategorys = Category::all();
-        return view('admin.posts.create');
+        $allCategories = Category::all();
+        return view('admin.posts.create', compact('allCategories'));
     }
 
     /**

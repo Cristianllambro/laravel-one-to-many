@@ -7,7 +7,7 @@
             <form method="POST" action="{{ route('admin.posts.store')}}">
                 @csrf
 
-
+                {{-- TITLE --}}
                 @error('title')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
@@ -16,18 +16,26 @@
                     <input type="text" class="form-control" id="title" name="title" value="{{old('title')}}">
                 </div>
 
+                <select name="category" id="category">
+                    <option value="">Select Category</option>
+                    @foreach ($categories as $item)
+                        <option value="{{$item->id}}">{{$item->name}}</option>
+                    @endforeach
+                </select>
 
+
+                {{-- SLUG --}}
                 @error('slug')
                 <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
-                <div class="mb-3 pt-5">
+                <div class="mb-3 pt-3">
                     <label for="slug" class="form-label">{{__('Slug')}}:</label>
                     <input type="text" class="form-control" id="slug" name="slug" value="{{old('slug')}}">
                 </div>
                 {{-- Button create slug --}}
                 <input class="btn btn-primary mb-3" type="button" value="Generate slug" id="btn-slugger">
 
-
+                {{-- CONTENT --}}
                 @error('content')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror

@@ -33,4 +33,8 @@ class Post extends Model
     public function user() {
         return $this->belongsTo('App\User'); //se il post ha la chiave esterna si usa 'belongsTo'
     }
+
+    public function category() {
+        return $this->belongsTo('App\Category');
+    }
 }

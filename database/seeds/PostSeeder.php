@@ -15,6 +15,8 @@ class PostSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
+
+        //random post (201)
         $title = 'Come Cucire';
         Post::create([
             'user_id'=> User::inRandomOrder()->first()->id,
@@ -24,6 +26,7 @@ class PostSeeder extends Seeder
             'slug' => Post::genSlug($title),
         ]);
 
+        // cicle for post
         for ($i=0; $i < 200 ; $i++) {
             $title = $faker->word(4, true);
             Post::create([

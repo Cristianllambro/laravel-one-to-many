@@ -20,6 +20,7 @@ class Post extends Model
         'category_id'
     ];
 
+    //slugger generator
     static public function genSlug($data) {
         $elementSlug = Str::of($data)->slug('-')->__toString();
         $slug = $elementSlug;

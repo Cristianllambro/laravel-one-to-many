@@ -29,7 +29,7 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        // DA FINIRE INCOMPRENSIONE
+        // filter user-title-category
         $element = Post::where('id', '>', 0);
 
         if($request->filter_title) {
